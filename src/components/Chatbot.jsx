@@ -50,7 +50,7 @@ export default function Chatbot({ brdMarkdown, strategyMarkdown }) {
     setLoading(true)
 
     try {
-      const res = await fetch('http://localhost:8000/chat', {
+      const res = await fetch('https://steadfast-adaptation-production-cd0a.up.railway.app/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

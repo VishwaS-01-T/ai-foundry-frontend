@@ -34,8 +34,8 @@ function Navbar() {
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          <motion.a
-            href="#"
+          <motion.button
+            onClick={() => navigate('/')}
             className="text-2xl font-bold bg-gradient-to-b from-[#FF9999] to-[#AA6677] bg-clip-text text-transparent"
             style={{
               fontFamily: '"Bodoni Poster Compressed", serif',
@@ -45,21 +45,21 @@ function Navbar() {
             whileTap={{ scale: 0.95 }}
           >
             PROMETHEO
-          </motion.a>
+          </motion.button>
 
           {/* Navigation Links */}
           <div className="hidden md:flex gap-8 items-center space-x-8" style={{ fontFamily: "'Roboto', sans-serif" }}>
             {navLinks.map((link) => (
-              <a
+              <button
                 key={link.name}
-                href={link.href}
+                onClick={() => { const el = document.querySelector(link.href); el ? el.scrollIntoView({ behavior: 'smooth' }) : navigate(link.href) }}
                 className={` hover:text-[#9333EA] transition-colors duration-200 font-medium
                     ${isScrolled 
                     ? 'text-gray-500' 
                     : 'text-gray-500'}`}              
       >
                 {link.name}
-              </a>
+              </button>
             ))}
           </div>
 

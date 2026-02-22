@@ -44,7 +44,7 @@ function Card2Content({ landingPageCode }) {
 
     try {
       // Call backend API to deploy to Vercel
-      const response = await fetch('http://localhost:8000/deploy_to_vercel', {
+      const response = await fetch('https://steadfast-adaptation-production-cd0a.up.railway.app/deploy_to_vercel', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

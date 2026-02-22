@@ -41,27 +41,27 @@ const Header = () => {
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <motion.a
-            href="#"
+          <motion.button
+            onClick={() => navigate('/')}
             className="text-2xl font-bold text-gray-900"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             aria-label="MindStudio Home"
           >
             NaamBatado
-          </motion.a>
+          </motion.button>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => (
-              <a
+              <button
                 key={link.name}
-                href={link.href}
+                onClick={() => { const el = document.querySelector(link.href); el ? el.scrollIntoView({ behavior: 'smooth' }) : navigate(link.href) }}
                 className="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded"
                 aria-label={`Navigate to ${link.name} section`}
               >
                 {link.name}
-              </a>
+              </button>
             ))}
           </div>
 
@@ -124,15 +124,14 @@ const Header = () => {
               className="md:hidden mt-4 pb-4 space-y-4"
             >
               {navLinks.map((link) => (
-                <a
+                <button
                   key={link.name}
-                  href={link.href}
                   className="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 font-medium py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={() => { setIsMobileMenuOpen(false); const el = document.querySelector(link.href); el ? el.scrollIntoView({ behavior: 'smooth' }) : navigate(link.href) }}
                   aria-label={`Navigate to ${link.name} section`}
                 >
                   {link.name}
-                </a>
+                </button>
               ))}
               <div className="flex flex-col space-y-2 pt-2">
                 <Button variant="ghost" size="sm" className="w-full">

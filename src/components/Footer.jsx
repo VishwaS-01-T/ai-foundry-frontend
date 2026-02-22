@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Footer = () => {
+  const navigate = useNavigate()
   const currentYear = new Date().getFullYear()
 
   const footerLinks = {
@@ -28,14 +30,14 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
           <div className="col-span-1 md:col-span-1">
-            <motion.a
-              href="#"
+            <motion.button
+              onClick={() => navigate('/')}
               className="text-2xl font-bold text-white mb-4 inline-block focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded"
               whileHover={{ scale: 1.05 }}
               aria-label="PROMETHEO"
             >
               PROMETHEO
-            </motion.a>
+            </motion.button>
             <p className="text-gray-400 text-sm">
               We don't only analyse your impact, We make it stronger.
             </p>
@@ -50,12 +52,12 @@ const Footer = () => {
               <ul className="space-y-2">
                 {links.map((link) => (
                   <li key={link.name}>
-                    <a
-                      href={link.href}
+                    <button
+                      onClick={() => { const el = document.querySelector(link.href); el ? el.scrollIntoView({ behavior: 'smooth' }) : navigate(link.href) }}
                       className="text-gray-400 hover:text-white transition-colors duration-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded"
                     >
                       {link.name}
-                    </a>
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -69,15 +71,15 @@ const Footer = () => {
             © {currentYear} PROMETHEO. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <a href="#privacy" className="text-gray-400 hover:text-white transition-colors duration-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded">
+            <button onClick={() => { const el = document.querySelector('#privacy'); el ? el.scrollIntoView({ behavior: 'smooth' }) : null }} className="text-gray-400 hover:text-white transition-colors duration-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded">
               Privacy
-            </a>
-            <a href="#terms" className="text-gray-400 hover:text-white transition-colors duration-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded">
+            </button>
+            <button onClick={() => { const el = document.querySelector('#terms'); el ? el.scrollIntoView({ behavior: 'smooth' }) : null }} className="text-gray-400 hover:text-white transition-colors duration-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded">
               Terms
-            </a>
-            <a href="#cookies" className="text-gray-400 hover:text-white transition-colors duration-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded">
+            </button>
+            <button onClick={() => { const el = document.querySelector('#cookies'); el ? el.scrollIntoView({ behavior: 'smooth' }) : null }} className="text-gray-400 hover:text-white transition-colors duration-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded">
               Cookies
-            </a>
+            </button>
           </div>
         </div>
       </div>

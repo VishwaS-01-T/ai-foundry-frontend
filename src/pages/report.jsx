@@ -339,7 +339,7 @@ export default function Report(){
 
   function connect() {
     try {
-      const ws = new WebSocket('ws://localhost:8000/ws_stream_campaign')
+      const ws = new WebSocket('wss://steadfast-adaptation-production-cd0a.up.railway.app/ws_stream_campaign')
       wsRef.current = ws
 
       ws.onopen = () => {
@@ -516,7 +516,7 @@ export default function Report(){
 
       ws.onerror = (err) => {
         console.error('WebSocket error:', err)
-        addOutputMessage('<strong>ERROR:</strong> Could not connect to ws://localhost:8000. Is the server running?')
+        addOutputMessage('<strong>ERROR:</strong> Could not connect to wss://steadfast-adaptation-production-cd0a.up.railway.app. Is the server running?')
       }
     } catch (e) {
       console.error('WS connect failed', e)

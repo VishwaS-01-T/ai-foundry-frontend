@@ -3,10 +3,12 @@ import React, { useRef, useEffect } from 'react'
 import { MessageSquare, Search, Rocket, TrendingUp } from 'lucide-react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useNavigate } from 'react-router-dom'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const HowItWorks = () => {
+  const navigate = useNavigate()
   const buttonRef = useRef(null)
   const lineRef = useRef(null)
   const cardsRef = useRef([])
@@ -256,9 +258,9 @@ const HowItWorks = () => {
 
         {/* CTA Button */}
         <div className="flex justify-center mt-8">
-          <motion.a
+          <motion.button
             ref={buttonRef}
-            href="/prompt"
+            onClick={() => navigate('/prompt')}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="inline-block relative px-12 py-5 text-lg font-bold rounded-full overflow-hidden group text-white"
@@ -272,7 +274,7 @@ const HowItWorks = () => {
                 →
               </motion.span>
             </span>
-          </motion.a>
+          </motion.button>
         </div>
       </div>
     </section>

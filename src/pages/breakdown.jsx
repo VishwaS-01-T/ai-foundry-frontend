@@ -71,7 +71,7 @@ export default function Breakdown() {
       try {
         const filename = brdUrl.split('/').pop().split('\\').pop()
         console.log('--- Downloading BRD:', filename)
-        const downloadUrl = `http://localhost:8000/download_brd/${filename}`
+        const downloadUrl = `https://steadfast-adaptation-production-cd0a.up.railway.app/download_brd/${filename}`
         
         const response = await fetch(downloadUrl)
         
