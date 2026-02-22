@@ -25,27 +25,17 @@ function Card({ id, title, description, accentColor = 'accent', brdUrl, strategy
 
   const handleClick = () => {
     if (!isReady) return
-    try {
-      if (id === 1) {
-        if (brdUrl || strategyMarkdown) {
-          localStorage.setItem('campaign_breakdown', JSON.stringify({ brdUrl, strategyMarkdown }))
-        }
-        window.open('/breakdown', '_blank')
-      } else if (id === 2) {
-        if (landingPageCode) {
-          localStorage.setItem('campaign_landingPageCode', landingPageCode)
-        }
-        window.open('/web-editor', '_blank')
-      } else if (id === 3) {
-        if (contentData || generatedAssets) {
-          localStorage.setItem('campaign_content', JSON.stringify({ contentData, generatedAssets }))
-        }
-        window.open('/postmaker', '_blank')
-      } else if (id === 4) {
-        window.open('/control', '_blank')
-      }
-    } catch (e) {
-      console.error('Failed opening new tab:', e)
+    if (id === 1) {
+      try { localStorage.setItem('campaign_breakdown', JSON.stringify({ brdUrl, strategyMarkdown })) } catch (e) {}
+      navigate('/breakdown', { state: { brdUrl, strategyMarkdown } })
+    } else if (id === 2) {
+      try { localStorage.setItem('campaign_landingPageCode', landingPageCode) } catch (e) {}
+      navigate('/web-editor', { state: { html: landingPageCode } })
+    } else if (id === 3) {
+      try { localStorage.setItem('campaign_content', JSON.stringify({ contentData, generatedAssets })) } catch (e) {}
+      navigate('/postmaker', { state: { contentData, generatedAssets } })
+    } else if (id === 4) {
+      navigate('/control')
     }
   }
 

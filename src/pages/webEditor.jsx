@@ -61,7 +61,7 @@ export default function WebEditor(){
         company_name: plannerData?.company_name || plannerData?.topic || 'AI Foundry'
       }
 
-      const response = await fetch('https://steadfast-adaptation-production-cd0a.up.railway.app/regenerate_landing_page', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/regenerate_landing_page`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -99,7 +99,7 @@ export default function WebEditor(){
     setDeploymentUrl(null)
 
     try {
-      const response = await fetch('https://steadfast-adaptation-production-cd0a.up.railway.app/deploy_to_vercel', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/deploy_to_vercel`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

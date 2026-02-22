@@ -7,7 +7,7 @@ function Card1Content({ brdUrl, strategyMarkdown }) {
       const filename = brdUrl.split('/').pop().split('\\').pop()
       
       // Use the backend API endpoint to download the file
-      const downloadUrl = `https://steadfast-adaptation-production-cd0a.up.railway.app/download_brd/${filename}`
+      const downloadUrl = `${import.meta.env.VITE_API_URL}/download_brd/${filename}`
       
       // Create a temporary link and trigger download
       const link = document.createElement('a')

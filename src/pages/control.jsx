@@ -104,7 +104,7 @@ export default function Control() {
     setPitchError('')
     setSystemPrompt('')
     try {
-      const response = await fetch('https://steadfast-adaptation-production-cd0a.up.railway.app/generate-prompt', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/generate-prompt`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ product_name: productName, product_url: productUrl })
@@ -137,7 +137,7 @@ export default function Control() {
     setPhoneLoading(true)
     setPhoneMessage('Starting phone call to marketing assistant...')
     try {
-      const response = await fetch('https://steadfast-adaptation-production-cd0a.up.railway.app/start-call', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/start-call`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone_number: normalizedNumber })
@@ -197,7 +197,7 @@ export default function Control() {
                   const callLogs = await response.json()
                   console.log('--- FULL CALL LOG ---', callLogs)
                   try {
-                    const serverResponse = await fetch('https://steadfast-adaptation-production-cd0a.up.railway.app/call-logs', {
+                    const serverResponse = await fetch(`${import.meta.env.VITE_API_URL}/call-logs`, {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
                       body: JSON.stringify({ callId: currentCallId, logs: callLogs, timestamp: new Date().toISOString() })

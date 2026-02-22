@@ -51,7 +51,7 @@ const Index = () => {
     try {
       // Run planner inference and IP geolocation in parallel
       const [planRes, geoRes] = await Promise.allSettled([
-        fetch('https://steadfast-adaptation-production-cd0a.up.railway.app/infer_plan', {
+        fetch(`${import.meta.env.VITE_API_URL}/infer_plan`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ initial_prompt: promptText })
