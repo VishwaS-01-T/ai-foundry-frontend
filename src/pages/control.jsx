@@ -104,8 +104,7 @@ export default function Control() {
     setPitchError('')
     setSystemPrompt('')
     try {
-      const baseUrl3 = import.meta.env.VITE_API_BASE_URL.replace(/\/$/, '')
-      const response = await fetch(`${baseUrl3.replace(/8000/, '8003')}/generate-prompt`, {
+      const response = await fetch('http://localhost:8003/generate-prompt', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ product_name: productName, product_url: productUrl })
@@ -138,8 +137,7 @@ export default function Control() {
     setPhoneLoading(true)
     setPhoneMessage('Starting phone call to marketing assistant...')
     try {
-      const baseUrl2 = import.meta.env.VITE_API_BASE_URL.replace(/\/$/, '')
-      const response = await fetch(`${baseUrl2.replace(/8000/, '8002')}/start-call`, {
+      const response = await fetch('http://localhost:8002/start-call', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone_number: normalizedNumber })
@@ -199,8 +197,7 @@ export default function Control() {
                   const callLogs = await response.json()
                   console.log('--- FULL CALL LOG ---', callLogs)
                   try {
-                    const baseUrl4 = import.meta.env.VITE_API_BASE_URL.replace(/\/$/, '')
-                    const serverResponse = await fetch(`${baseUrl4.replace(/8000/, '8004')}/call-logs`, {
+                    const serverResponse = await fetch('http://localhost:8004/call-logs', {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
                       body: JSON.stringify({ callId: currentCallId, logs: callLogs, timestamp: new Date().toISOString() })

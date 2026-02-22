@@ -61,8 +61,7 @@ export default function WebEditor(){
         company_name: plannerData?.company_name || plannerData?.topic || 'AI Foundry'
       }
 
-      const baseUrl = import.meta.env.VITE_API_BASE_URL
-      const response = await fetch(`${baseUrl}/regenerate_landing_page`, {
+      const response = await fetch('http://localhost:8000/regenerate_landing_page', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -100,7 +99,7 @@ export default function WebEditor(){
     setDeploymentUrl(null)
 
     try {
-      const response = await fetch(`${baseUrl}/deploy_to_vercel`, {
+      const response = await fetch('http://localhost:8000/deploy_to_vercel', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

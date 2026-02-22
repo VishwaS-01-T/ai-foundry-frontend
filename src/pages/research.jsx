@@ -46,7 +46,11 @@ export default function Research() {
 				const stored = localStorage.getItem('campaign_research')
 				if (stored) {
 					const parsed = JSON.parse(stored)
-					if (parsed?.researchData) setResearchData(parsed.researchData)
+					if (parsed?.researchData) {
+						console.log('📋 Loaded research from localStorage:', parsed.researchData)
+						console.log('🔍 validation_mismatches:', parsed.researchData?.validation_mismatches)
+						setResearchData(parsed.researchData)
+					}
 				}
 			} catch (e) {
 				console.error('Failed loading research from storage', e)
@@ -249,7 +253,7 @@ export default function Research() {
 						)}
 
 						{/* Validation Mismatches */}
-						{researchData.validation_mismatches && researchData.validation_mismatches.length > 0 && !researchData.govt_fallback_only && (
+					{researchData.validation_mismatches && researchData.validation_mismatches.length > 0 && (
 							<div>
 								<h3 className="text-amber-700 text-lg font-semibold mb-4" style={{fontFamily: 'Urbanist, sans-serif', fontWeight: 800}}>
 									⚠️ Validation Notes

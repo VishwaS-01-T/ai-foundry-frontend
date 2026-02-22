@@ -44,8 +44,7 @@ function Card2Content({ landingPageCode }) {
 
     try {
       // Call backend API to deploy to Vercel
-      const baseUrl = import.meta.env.VITE_API_BASE_URL
-      const response = await fetch(`${baseUrl}/deploy_to_vercel`, {
+      const response = await fetch('http://localhost:8000/deploy_to_vercel', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -175,7 +174,7 @@ function Card2Content({ landingPageCode }) {
                 <span>Desktop</span><span>•</span><span>1920x1080</span>
               </div>
             </div>
-            <div className="flex-1 bg-linear-to-br from-gray-700 to-gray-900 rounded-lg border border-white/10 p-8 flex items-center justify-center min-h-96">
+            <div className="flex-1 bg-gradient-to-br from-gray-700 to-gray-900 rounded-lg border border-white/10 p-8 flex items-center justify-center min-h-96">
               <div className="text-center space-y-4">
                 <div className="w-24 h-24 bg-purple-500/20 rounded-full mx-auto"/>
                 <p className="text-white/60">⏳ Waiting for landing page generation...</p>
@@ -190,7 +189,7 @@ function Card2Content({ landingPageCode }) {
           whileHover={{ scale: 1.05 }} 
           whileTap={{ scale: 0.95 }} 
           onClick={handleRegenerate} 
-          className="w-full py-4 px-6 bg-linear-to-r from-blue-500 to-cyan-500 text-white font-bold rounded-xl shadow-lg"
+          className="w-full py-4 px-6 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold rounded-xl shadow-lg"
         >
           🔄 Regenerate Code
         </motion.button>

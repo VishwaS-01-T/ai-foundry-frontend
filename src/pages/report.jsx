@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import BackButton from '../components/BackButton'
 import CardGrid from '../components/cards/CardGrid'
+import Chatbot from '../components/Chatbot'
 
 export default function Report(){
   const loc = useLocation()
@@ -21,6 +22,7 @@ export default function Report(){
   const outputRef = useRef(null)
   const [running, setRunning] = useState(false)
   const [brdUrl, setBrdUrl] = useState(null)
+  const [brdMarkdown, setBrdMarkdown] = useState(null)
   const [strategyMarkdown, setStrategyMarkdown] = useState(null)
 
   // --- Editable inferred plan state ---
@@ -337,7 +339,7 @@ export default function Report(){
 
   function connect() {
     try {
-      const ws = new WebSocket('wss://steadfast-adaptation-production-cd0a.up.railway.app/ws_stream_campaign')
+      const ws = new WebSocket('ws://localhost:8000/ws_stream_campaign')
       wsRef.current = ws
 
       ws.onopen = () => {
@@ -443,6 +445,9 @@ export default function Report(){
             if (nodeName === 'brd_agent') {
               if (jsonData.brd_url) {
                 setBrdUrl(jsonData.brd_url)
+              }
+              if (jsonData.brd_markdown) {
+                setBrdMarkdown(jsonData.brd_markdown)
               }
             }
 
@@ -815,6 +820,9 @@ export default function Report(){
           </div>
         </div>
       </div>
+
+      {/* Floating BRD Chatbot */}
+      <Chatbot brdMarkdown={brdMarkdown} strategyMarkdown={strategyMarkdown} />
     </div>
   )
 }

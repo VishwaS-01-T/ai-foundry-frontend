@@ -9,30 +9,39 @@ export default function Breakdown() {
   const timelineRef = useRef(null)
 
   useEffect(() => {
-    if (!stateBrdUrl || !stateStrategyMarkdown) {
+    console.log('--- Breakdown component loaded ---')
+    
+    // Try localStorage fallback if location state is not available
+    if (!stateBrdUrl && !stateStrategyMarkdown) {
       try {
         const stored = localStorage.getItem('campaign_breakdown')
         if (stored) {
           const parsed = JSON.parse(stored)
-          if (!brdUrl && parsed.brdUrl) setBrdUrl(parsed.brdUrl)
-          if (!strategyMarkdown && parsed.strategyMarkdown) setStrategyMarkdown(parsed.strategyMarkdown)
+          console.log('--- Loaded from localStorage:', parsed)
+          if (parsed.brdUrl) setBrdUrl(parsed.brdUrl)
+          if (parsed.strategyMarkdown) setStrategyMarkdown(parsed.strategyMarkdown)
         }
       } catch (e) {
         console.error('Failed to load breakdown from storage', e)
       }
     }
-  }, [stateBrdUrl, stateStrategyMarkdown, brdUrl, strategyMarkdown])
+  }, [])
+
+  useEffect(() => {
+    console.log('--- Data updated in breakdown ---')
+    console.log('--- strategyMarkdown:', strategyMarkdown ? `(${strategyMarkdown.length} chars)` : 'null')
+    console.log('--- brdUrl:', brdUrl)
+  }, [strategyMarkdown, brdUrl])
 
   useEffect(() => {
     const items = document.querySelectorAll('.timeline li')
 
     function isElementInViewport(el) {
       const rect = el.getBoundingClientRect()
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight
       return (
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        rect.top < viewportHeight * 0.85 &&
+        rect.bottom > 0
       )
     }
 
@@ -57,17 +66,35 @@ export default function Breakdown() {
     }
   }, [strategyMarkdown])
 
-  const handleGenerateBRD = () => {
+  const handleGenerateBRD = async () => {
     if (brdUrl) {
-      const filename = brdUrl.split('/').pop().split('\\').pop()
-      const baseUrl = import.meta.env.VITE_API_BASE_URL
-      const downloadUrl = `${baseUrl}/download_brd/${filename}`
-      const link = document.createElement('a')
-      link.href = downloadUrl
-      link.download = filename
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
+      try {
+        const filename = brdUrl.split('/').pop().split('\\').pop()
+        console.log('--- Downloading BRD:', filename)
+        const downloadUrl = `http://localhost:8000/download_brd/${filename}`
+        
+        const response = await fetch(downloadUrl)
+        
+        if (!response.ok) {
+          alert(`Download failed: ${response.statusText}`)
+          return
+        }
+        
+        const blob = await response.blob()
+        const url = URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.href = url
+        link.download = filename
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        URL.revokeObjectURL(url)
+        
+        console.log('--- BRD downloaded successfully')
+      } catch (error) {
+        console.error('--- Error downloading BRD:', error)
+        alert(`Error downloading BRD: ${error.message}`)
+      }
     } else {
       const brdContent = `BUSINESS REQUIREMENT DOCUMENT (BRD)\n\nProject: Website Development & Marketing Automation\nDate: ${new Date().toLocaleDateString()}\n\n1. PROJECT OVERVIEW\n   - Goal: Create a comprehensive website with automated marketing capabilities\n   - Target Audience: Small to medium businesses\n   - Timeline: 8-12 weeks\n\nEND OF DOCUMENT`.trim()
 
@@ -81,7 +108,7 @@ export default function Breakdown() {
       document.body.removeChild(a)
       URL.revokeObjectURL(url)
 
-      alert('BRD.txt has been downloaded successfully!')
+      alert('Fallback BRD has been downloaded successfully!')
     }
   }
 
@@ -91,17 +118,25 @@ export default function Breakdown() {
     const lines = markdown.split('\n')
     const sections = []
     let currentSection = null
+    let isFirstHeading = true
     
     lines.forEach(line => {
+      const isPhaseHeading = /^\s*(#{1,3}\s+)?phase\s+\d+/i.test(line)
+      // Skip the first top-level heading (main title)
       if (line.startsWith('# ')) {
-        return
+        if (isFirstHeading) {
+          isFirstHeading = false
+          return
+        }
       }
-      if (line.startsWith('## ') || line.startsWith('### ')) {
+      
+      // Parse ## or ### as section titles, or # if not the first one
+      if (line.startsWith('## ') || line.startsWith('### ') || (line.startsWith('# ') && !isFirstHeading) || isPhaseHeading) {
         if (currentSection) {
           sections.push(currentSection)
         }
         currentSection = {
-          title: line.replace(/^#{2,3}\s+/, '').trim(),
+          title: line.replace(/^#{1,3}\s+/, '').trim(),
           content: []
         }
       } else if (currentSection && line.trim()) {
@@ -113,6 +148,7 @@ export default function Breakdown() {
       sections.push(currentSection)
     }
     
+    console.log('--- Parsed strategy sections:', sections)
     return sections
   }
 
@@ -136,7 +172,8 @@ export default function Breakdown() {
           position: relative;
           width: 6px;
           margin: 0 auto;
-          padding-top: 10px;
+          padding: 30px 0;
+          min-height: 120px;
           background: #c3d6ff;
         }
 
@@ -277,7 +314,7 @@ export default function Breakdown() {
         )}
 
         {/* BRD Section */}
-        <div className="max-w-2xl mx-auto mt-16 bg-linear-to-br from-purple-50 to-purple-100 rounded-2xl p-8 border border-purple-200 shadow-lg">
+        <div className="max-w-2xl mx-auto mt-16 bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-8 border border-purple-200 shadow-lg">
           <h2 className="text-3xl font-bold text-gray-800 mb-6" style={{ fontFamily: 'Urbanist, sans-serif' }}>
             Business Requirements Document
           </h2>
@@ -288,7 +325,7 @@ export default function Breakdown() {
               </p>
               <button
                 onClick={handleGenerateBRD}
-                className="px-6 py-2.5 bg-linear-to-r from-purple-600 to-pink-600 text-white rounded-full font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-200 shadow-md hover:shadow-lg"
+                className="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-200 shadow-md hover:shadow-lg"
                 style={{ fontFamily: 'Roboto, sans-serif' }}
               >
                 Download BRD PDF

@@ -51,7 +51,7 @@ const Index = () => {
     try {
       // Run planner inference and IP geolocation in parallel
       const [planRes, geoRes] = await Promise.allSettled([
-        fetch(`${import.meta.env.VITE_API_BASE_URL}/infer_plan`, {
+        fetch('http://localhost:8000/infer_plan', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ initial_prompt: promptText })

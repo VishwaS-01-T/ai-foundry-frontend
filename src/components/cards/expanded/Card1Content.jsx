@@ -5,9 +5,9 @@ function Card1Content({ brdUrl, strategyMarkdown }) {
     if (brdUrl) {
       // Extract filename from the path (e.g., "campaign_outputs/chromadb-v_brd.pdf" -> "chromadb-v_brd.pdf")
       const filename = brdUrl.split('/').pop().split('\\').pop()
+      
       // Use the backend API endpoint to download the file
-      const baseUrl = import.meta.env.VITE_API_BASE_URL
-      const downloadUrl = `${baseUrl}/download_brd/${filename}`
+      const downloadUrl = `http://localhost:8000/download_brd/${filename}`
       
       // Create a temporary link and trigger download
       const link = document.createElement('a')
@@ -113,7 +113,7 @@ function Card1Content({ brdUrl, strategyMarkdown }) {
       )}
 
       {/* BRD Section - Integrated from Report page */}
-      <div className="bg-linear-to-br from-[#1e3a5f] to-[#2c5282] rounded-2xl p-6 border border-blue-500/30 shadow-lg">
+      <div className="bg-gradient-to-br from-[#1e3a5f] to-[#2c5282] rounded-2xl p-6 border border-blue-500/30 shadow-lg">
         <h3 className="text-2xl font-bold text-white mb-4">Business Requirements Document</h3>
         {brdUrl ? (
           <div className="space-y-4">
@@ -121,7 +121,7 @@ function Card1Content({ brdUrl, strategyMarkdown }) {
               <p className="text-blue-300 text-base mb-4">✅ Your BRD has been generated successfully!</p>
               <button 
                 onClick={handleGenerateBRD}
-                className="inline-block py-3 px-6 bg-linear-to-br from-blue-500 to-blue-800 text-white border-none rounded-lg font-semibold text-base transition-all duration-300 shadow-[0_4px_12px_rgba(59,130,246,0.3)] hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(59,130,246,0.4)] cursor-pointer"
+                className="inline-block py-3 px-6 bg-gradient-to-br from-blue-500 to-blue-800 text-white border-none rounded-lg font-semibold text-base transition-all duration-300 shadow-[0_4px_12px_rgba(59,130,246,0.3)] hover:translate-y-[-2px] hover:shadow-[0_6px_20px_rgba(59,130,246,0.4)] cursor-pointer"
               >
                 📥 Download BRD PDF
               </button>
@@ -138,7 +138,7 @@ function Card1Content({ brdUrl, strategyMarkdown }) {
         whileHover={{ scale: 1.05 }} 
         whileTap={{ scale: 0.95 }} 
         onClick={handleGenerateBRD} 
-        className="w-full py-4 px-6 bg-linear-to-r from-purple-500 to-pink-500 text-white font-bold rounded-xl shadow-lg"
+        className="w-full py-4 px-6 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-xl shadow-lg"
         disabled={!brdUrl}
       >
         {brdUrl ? 'Download BRD' : 'Waiting for BRD Generation...'}
