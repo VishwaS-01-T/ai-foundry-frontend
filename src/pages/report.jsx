@@ -337,7 +337,7 @@ export default function Report(){
 
   function connect() {
     try {
-      const ws = new WebSocket('ws://localhost:8000/ws_stream_campaign')
+      const ws = new WebSocket('ws://steadfast-adaptation-production-cd0a.up.railway.app/ws_stream_campaign')
       wsRef.current = ws
 
       ws.onopen = () => {
